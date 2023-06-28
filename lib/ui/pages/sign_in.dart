@@ -1,3 +1,5 @@
+import 'package:financial_note/shared/shared_preferences.dart';
+import 'package:financial_note/shared/snackbar_page.dart';
 import 'package:financial_note/shared/theme.dart';
 import 'package:financial_note/ui/widgets/button.dart';
 import 'package:financial_note/ui/widgets/forms.dart';
@@ -6,8 +8,26 @@ import 'package:flutter/material.dart';
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
 
+  void login(BuildContext ctx, String email, String pass) async {
+    if (email.isEmpty && pass.isEmpty) {
+      CustomSnackBar.showToast(ctx, "Inputan Masih Kosong!");
+    } else {
+      String pEmail = await SharedPrefUtils.getEmail();
+      String pPassword = await SharedPrefUtils.getPassword();
+
+      if (email == pEmail && pass == pPassword) {
+        //menu page
+      } else {
+        CustomSnackBar.showToast(ctx, "Login Gagal!");
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -49,12 +69,14 @@ class SignInPage extends StatelessWidget {
               children: [
                 CustomFormField(
                   title: 'Alamat Email',
+                  controller: emailController,
                 ),
                 const SizedBox(
                   height: 8,
                 ),
                 CustomFormField(
                   title: 'Password',
+                  controller: passwordController,
                   obscureText: true,
                 ),
                 const SizedBox(
@@ -62,9 +84,25 @@ class SignInPage extends StatelessWidget {
                 ),
 
                 //-------- WIDGET UNTUK BUTTON ----------//
-                CustomFillButton(title: 'Sign In')
+                CustomFillButton(
+                  title: 'Sign In',
+                  onPressed: () {
+                    login(
+                        context, emailController.text, passwordController.text);
+                  },
+                )
               ],
             ),
+          ),
+
+          const SizedBox(
+            height: 50,
+          ),
+          CustomTextButton(
+            title: 'Buat Akun Baru',
+            onPressed: () {
+              //sign up page
+            },
           ),
         ],
       ),
