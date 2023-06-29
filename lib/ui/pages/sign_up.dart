@@ -1,3 +1,4 @@
+import 'package:financial_note/shared/date_timenow.dart';
 import 'package:financial_note/shared/shared_preferences.dart';
 import 'package:financial_note/shared/snackbar_page.dart';
 import 'package:financial_note/shared/theme.dart';
@@ -5,29 +6,29 @@ import 'package:financial_note/ui/widgets/button.dart';
 import 'package:financial_note/ui/widgets/forms.dart';
 import 'package:flutter/material.dart';
 
-class SignInPage extends StatelessWidget {
-  const SignInPage({super.key});
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
 
-  void login(BuildContext ctx, String email, String pass) async {
-    if (email.isEmpty && pass.isEmpty) {
-      CustomSnackBar.showToast(ctx, "Inputan Masih Kosong!");
-    } else {
-      String pEmail = await SharedPrefUtils.getEmail();
-      String pPassword = await SharedPrefUtils.getPassword();
+  void register(
+    BuildContext ctx,
+    String nama,
+    String email,
+    String pass,
+  ) {
+    SharedPrefUtils.saveNama(nama);
+    SharedPrefUtils.saveEmail(email);
+    SharedPrefUtils.savePassword(pass);
+    SharedPrefUtils.saveTanggalGabung(DateTimeNow.datetimenow());
 
-      if (email == pEmail && pass == pPassword) {
-        CustomSnackBar.showToast(ctx, "Login Berhasil");
-        Navigator.pushNamedAndRemoveUntil(ctx, '/menu_page', (route) => false);
-      } else {
-        CustomSnackBar.showToast(ctx, "Password Atau Email Salah !");
-      }
-    }
+    CustomSnackBar.showToast(ctx, 'Berhasil Disimpan');
+    Navigator.pushNamed(ctx, '/sign_in');
   }
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
+    final TextEditingController namaController = TextEditingController();
 
     return Scaffold(
       body: ListView(
@@ -49,7 +50,7 @@ class SignInPage extends StatelessWidget {
 
           //---------- TEXT DI SIGN IN PAGE ------------//
           Text(
-            'Sign In & Catat Keuangan Anda',
+            'Buat Akun Anda',
             style: blackTextStyle.copyWith(
               fontSize: 18,
               fontWeight: semiBold,
@@ -69,6 +70,10 @@ class SignInPage extends StatelessWidget {
             child: Column(
               children: [
                 CustomFormField(
+                  title: 'Nama',
+                  controller: namaController,
+                ),
+                CustomFormField(
                   title: 'Alamat Email',
                   controller: emailController,
                 ),
@@ -86,12 +91,12 @@ class SignInPage extends StatelessWidget {
 
                 //-------- WIDGET UNTUK BUTTON ----------//
                 CustomFillButton(
-                  title: 'Sign In',
+                  title: 'Sign Up',
                   onPressed: () {
-                    login(
-                        context, emailController.text, passwordController.text);
+                    register(context, namaController.text, emailController.text,
+                        passwordController.text);
                   },
-                )
+                ),
               ],
             ),
           ),
@@ -100,9 +105,9 @@ class SignInPage extends StatelessWidget {
             height: 50,
           ),
           CustomTextButton(
-            title: 'Buat Akun Baru',
+            title: 'Sign In',
             onPressed: () {
-              Navigator.pushNamed(context, '/sign_up');
+              Navigator.pushNamed(context, '/sign_in');
             },
           ),
         ],

@@ -11,6 +11,16 @@ class SharedPrefUtils {
     return pref.getString('nama');
   }
 
+  static saveNameImage(String namaImage) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('namaImage', namaImage);
+  }
+
+  static getNameImage() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString('namaImage');
+  }
+
   static saveEmail(String email) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setString('email', email);

@@ -1,5 +1,7 @@
 import 'package:financial_note/shared/theme.dart';
+import 'package:financial_note/ui/pages/menu_page.dart';
 import 'package:financial_note/ui/pages/sign_in.dart';
+import 'package:financial_note/ui/pages/sign_up.dart';
 import 'package:financial_note/ui/pages/splash_page.dart';
 import 'package:flutter/material.dart';
 
@@ -32,6 +34,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashPage(),
         '/sign_in': (context) => const SignInPage(),
+        '/sign_up': (context) => const SignUpPage(),
+        '/menu_page': (context) => const MenuPage(),
       },
     );
   }

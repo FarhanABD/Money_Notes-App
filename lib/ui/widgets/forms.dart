@@ -31,6 +31,7 @@ class CustomFormField extends StatelessWidget {
             title,
             style: blackTextStyle.copyWith(
               fontWeight: medium,
+              color: Colors.black,
             ),
           ),
         if (isShowTitle)

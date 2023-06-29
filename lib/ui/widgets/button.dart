@@ -32,7 +32,7 @@ class CustomFillButton extends StatelessWidget {
         ),
         child: Text(
           title,
-          style: whiteTextStyle.copyWith(fontSize: 16, fontWeight: semiBold),
+          style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
         ),
       ),
     );
@@ -63,7 +63,8 @@ class CustomTextButton extends StatelessWidget {
         style: TextButton.styleFrom(padding: EdgeInsets.zero),
         child: Text(
           title,
-          style: whiteTextStyle.copyWith(fontSize: 16, color: greyBlackColor),
+          style: whiteTextStyle.copyWith(
+              fontSize: 16, color: blackColor, fontWeight: bold),
         ),
       ),
     );
