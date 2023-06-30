@@ -1,7 +1,11 @@
+import 'package:financial_note/models/catatan.dart';
+import 'package:financial_note/shared/separator.dart';
 import 'package:financial_note/shared/shared_method.dart';
 import 'package:financial_note/shared/shared_preferences.dart';
 import 'package:financial_note/shared/theme.dart';
+import 'package:financial_note/ui/widgets/history_transaksi_item.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
@@ -11,6 +15,16 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  Future<List<Catatan>> readCatatan() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String catatanString = prefs.getString('catatan_key') ?? '';
+    if (catatanString.isNotEmpty) {
+      return Catatan.decode(catatanString);
+    }
+
+    return [];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +35,7 @@ class _MenuPageState extends State<MenuPage> {
         children: [
           buildProfile(context),
           buildWallet(context),
+          buildHistory(context),
         ],
       ),
 
@@ -133,10 +148,117 @@ class _MenuPageState extends State<MenuPage> {
                 );
               },
             ),
+            //====== ENDS OF WIDGET PENGAMBILAN DATA SALDO =================//
+            const SizedBox(
+              height: 20,
+            ),
+            const Separator(
+              color: Colors.white,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            //---------------- ROW PEMASUKAN & PENGELUARAN -------------------//
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Pemasukan',
+                      style: whiteTextStyle,
+                    ),
+                    FutureBuilder(
+                      future: SharedPrefUtils.getPemasukan(),
+                      builder: (context, snapshot) {
+                        return Text(
+                          '${formatCurrency(snapshot.data)}',
+                          style: whiteTextStyle.copyWith(fontWeight: semiBold),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Pengeluaran',
+                      style: whiteTextStyle,
+                    ),
+                    FutureBuilder(
+                      future: SharedPrefUtils.getPengeluaran(),
+                      builder: (context, snapshot) {
+                        return Text(
+                          '${formatCurrency(snapshot.data)}',
+                          style: whiteTextStyle.copyWith(fontWeight: semiBold),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
   //========================= ENDS OF WIDGET WALLET ==========================//
+
+  //---------------------- WIDGET HITORY -------------------------------------//
+  Widget buildHistory(
+    BuildContext context,
+  ) {
+    return Container(
+      margin: const EdgeInsets.only(top: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'History Transaksi',
+            style: blackTextStyle.copyWith(fontSize: 16, fontWeight: semiBold),
+          ),
+          Container(
+            padding: const EdgeInsets.all(22),
+            margin: const EdgeInsets.only(top: 14),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: whiteColor,
+            ),
+            child: FutureBuilder(
+              future: readCatatan(),
+              builder: (context, snapshot) {
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data != null ? snapshot.data!.length : 0,
+                  itemBuilder: (context, index) => HistoryTransaksiItem(
+                      iconUrl: snapshot.data!
+                                  .elementAt(index)
+                                  .tipeTransaksi
+                                  .toString() ==
+                              'pemasukan'
+                          ? 'assets/transaksi_pemasukan.png'
+                          : 'assets/transaksi_pengeluaran.png',
+                      title:
+                          snapshot.data!.elementAt(index).category.toString(),
+                      date: snapshot.data!.elementAt(index).tanggal.toString(),
+                      value: snapshot.data!
+                                  .elementAt(index)
+                                  .tipeTransaksi
+                                  .toString() ==
+                              'pemasukan'
+                          ? '+ ${formatCurrency(snapshot.data!.elementAt(index).jumlah, symbol: '')}'
+                          : '- ${formatCurrency(snapshot.data!.elementAt(index).jumlah, symbol: '')}'),
+                );
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+  //====================== ENDS OF HISTORY WIDGET ============================//
 }
