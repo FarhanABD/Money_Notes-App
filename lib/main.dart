@@ -1,5 +1,7 @@
 import 'package:financial_note/shared/theme.dart';
+import 'package:financial_note/ui/pages/add_page.dart';
 import 'package:financial_note/ui/pages/menu_page.dart';
+import 'package:financial_note/ui/pages/profile_page.dart';
 import 'package:financial_note/ui/pages/sign_in.dart';
 import 'package:financial_note/ui/pages/sign_up.dart';
 import 'package:financial_note/ui/pages/splash_page.dart';
@@ -36,6 +38,8 @@ class MyApp extends StatelessWidget {
         '/sign_in': (context) => const SignInPage(),
         '/sign_up': (context) => const SignUpPage(),
         '/menu_page': (context) => const MenuPage(),
+        '/add_page': (context) => const AddFinancialPage(),
+        '/profile_page': (context) => const ProfilePage(),
       },
     );
   }

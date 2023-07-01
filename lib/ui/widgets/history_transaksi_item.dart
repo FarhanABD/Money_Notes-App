@@ -28,7 +28,7 @@ class HistoryTransaksiItem extends StatelessWidget {
             width: 48,
           ),
           const SizedBox(
-            height: 16,
+            width: 16,
           ),
           Expanded(
             child: Column(
@@ -55,7 +55,7 @@ class HistoryTransaksiItem extends StatelessWidget {
           ),
           Text(
             value,
-            style: greyTextStyle.copyWith(
+            style: blackTextStyle.copyWith(
               fontSize: 16,
               fontWeight: medium,
             ),

@@ -21,7 +21,6 @@ class _MenuPageState extends State<MenuPage> {
     if (catatanString.isNotEmpty) {
       return Catatan.decode(catatanString);
     }
-
     return [];
   }
 
@@ -41,7 +40,9 @@ class _MenuPageState extends State<MenuPage> {
 
       //--------- BUTTON ADD DI MENU HOME ------------------------------------//
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, '/add_page');
+        },
         backgroundColor: purpleColor,
         child: const Icon(Icons.add),
       ),
@@ -84,9 +85,15 @@ class _MenuPageState extends State<MenuPage> {
             ],
           ),
 
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/profile_page');
+            },
+          ),
+
           //---------- GAMBAR ICONS PROFILE DI MENU -------------------------//
           FutureBuilder(
-            // future: SharedPrefUtils.getNama(),
+            future: SharedPrefUtils.readNameImage(),
             builder: (context, snapshot) {
               return Container(
                 width: 60,
@@ -96,7 +103,7 @@ class _MenuPageState extends State<MenuPage> {
                   image: DecorationImage(
                     image: snapshot.data == null
                         ? const AssetImage('assets/image-1.png')
-                        : AssetImage('assets/image-1.png'),
+                        : AssetImage('assets/${snapshot.data}.png'),
                   ),
                 ),
               );
@@ -137,9 +144,10 @@ class _MenuPageState extends State<MenuPage> {
 
             //--------- PENGAMBILAN DATA SALDO -------------------------------//
             FutureBuilder(
-              future: SharedPrefUtils.getSaldo(),
+              future: SharedPrefUtils.readSaldo(),
               builder: (context, snapshot) {
                 return Text(
+                  // ignore: unnecessary_string_interpolations
                   '${formatCurrency(snapshot.data)}',
                   style: whiteTextStyle.copyWith(
                     fontSize: 24,
@@ -169,9 +177,10 @@ class _MenuPageState extends State<MenuPage> {
                       style: whiteTextStyle,
                     ),
                     FutureBuilder(
-                      future: SharedPrefUtils.getPemasukan(),
+                      future: SharedPrefUtils.readPemasukan(),
                       builder: (context, snapshot) {
                         return Text(
+                          // ignore: unnecessary_string_interpolations
                           '${formatCurrency(snapshot.data)}',
                           style: whiteTextStyle.copyWith(fontWeight: semiBold),
                         );
@@ -188,9 +197,10 @@ class _MenuPageState extends State<MenuPage> {
                       style: whiteTextStyle,
                     ),
                     FutureBuilder(
-                      future: SharedPrefUtils.getPengeluaran(),
+                      future: SharedPrefUtils.readPengeluaran(),
                       builder: (context, snapshot) {
                         return Text(
+                          // ignore: unnecessary_string_interpolations
                           '${formatCurrency(snapshot.data)}',
                           style: whiteTextStyle.copyWith(fontWeight: semiBold),
                         );
@@ -243,7 +253,7 @@ class _MenuPageState extends State<MenuPage> {
                           ? 'assets/transaksi_pemasukan.png'
                           : 'assets/transaksi_pengeluaran.png',
                       title:
-                          snapshot.data!.elementAt(index).category.toString(),
+                          snapshot.data!.elementAt(index).kategori.toString(),
                       date: snapshot.data!.elementAt(index).tanggal.toString(),
                       value: snapshot.data!
                                   .elementAt(index)

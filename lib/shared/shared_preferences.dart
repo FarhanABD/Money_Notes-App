@@ -11,14 +11,14 @@ class SharedPrefUtils {
     return pref.getString('nama');
   }
 
-  static saveNameImage(String namaImage) async {
+  static saveNameImage(String nameImage) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString('namaImage', namaImage);
+    pref.setString('nameImage', nameImage);
   }
 
-  static getNameImage() async {
+  static readNameImage() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getString('namaImage');
+    return pref.getString('nameImage');
   }
 
   static saveEmail(String email) async {
@@ -51,33 +51,33 @@ class SharedPrefUtils {
     return pref.getString('tanggalGabung');
   }
 
-  static saveSaldo(String saldo) async {
+  static saveSaldo(int saldo) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString('saldo', saldo);
+    pref.setInt('saldo', saldo);
   }
 
-  static getSaldo() async {
+  static readSaldo() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getString('saldo');
+    return pref.getInt('saldo') ?? 0;
   }
 
-  static savePemasukan(String pemasukan) async {
+  static savePemasukan(int pemasukan) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString('saldo', pemasukan);
+    pref.setInt('pemasukan', pemasukan);
   }
 
-  static getPemasukan() async {
+  static readPemasukan() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getString('pemasukan');
+    return pref.getInt('pemasukan') ?? 0;
   }
 
-  static savePengeluaran(String pengeluaran) async {
+  static savePengeluaran(int pengeluaran) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString('pengeluaran', pengeluaran);
+    pref.setInt('pengeluaran', pengeluaran);
   }
 
-  static getPengeluaran() async {
+  static readPengeluaran() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getString('pengeluaran');
+    return pref.getInt('pengeluaran') ?? 0;
   }
 }

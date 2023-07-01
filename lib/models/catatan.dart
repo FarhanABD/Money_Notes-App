@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class Catatan {
-  final String? id, tanggal, tipeTransaksi, category, catatan;
+  final String? id, tanggal, tipeTransaksi, kategori, catatan;
   final int? jumlah;
 
 //------ CONSTRUCT -----//
@@ -9,9 +9,10 @@ class Catatan {
     this.id,
     this.tanggal,
     this.tipeTransaksi,
-    this.category,
+    this.kategori,
     this.jumlah,
     this.catatan,
+    // required String kategori,
   });
 
   factory Catatan.fromJson(Map<String, dynamic> jsonData) {
@@ -19,7 +20,7 @@ class Catatan {
       id: jsonData['id'],
       tanggal: jsonData['tanggal'],
       tipeTransaksi: jsonData['tipeTransaksi'],
-      category: jsonData['category'],
+      kategori: jsonData['kategori'],
       jumlah: jsonData['jumlah'],
       catatan: jsonData['catatan'],
     );
@@ -29,7 +30,7 @@ class Catatan {
         'id': cat.id,
         'tanggal': cat.tanggal,
         'tipeTransaksi': cat.tipeTransaksi,
-        'category': cat.category,
+        'kategori': cat.kategori,
         'jumlah': cat.jumlah,
         'catatan': cat.catatan,
       };
